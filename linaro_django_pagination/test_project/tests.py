@@ -27,8 +27,20 @@
 # (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+import os
+import sys
+
 
 def run_tests():
+    LINARO_PATH = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+    sys.path.append(LINARO_PATH)
+
+    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "linaro_django_pagination.test_project.settings")
+
+    import django
+    if hasattr(django, 'setup'):
+        django.setup()
+
     from django_testproject.tests import run_tests_for
     run_tests_for("linaro_django_pagination.test_project.settings")
 

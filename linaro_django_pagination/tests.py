@@ -268,3 +268,12 @@ True
 >>> middleware.process_request(request)
 >>> request.upload_handlers.append('asdf')
 """
+
+import doctest
+
+
+def load_tests(loader, tests, ignore):
+    """ Load tests from comments in measure_units. """
+    import linaro_django_pagination.tests
+    tests.addTests(doctest.DocTestSuite(linaro_django_pagination.tests))
+    return tests

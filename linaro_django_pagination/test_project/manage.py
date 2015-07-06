@@ -28,10 +28,12 @@
 # (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-
 import logging
+import os
+import sys
 
-from django.core.management import execute_manager
+LINARO_PATH = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+sys.path.append(LINARO_PATH)
 
 try:
     from linaro_django_pagination.test_project import settings
@@ -41,4 +43,13 @@ except ImportError as ex:
 
 
 if __name__ == "__main__":
-    execute_manager(settings)
+    try:
+        from django.core.management import execute_manager
+
+        execute_manager(settings)
+    except ImportError:
+        from django.core.management import execute_from_command_line
+
+        os.environ.setdefault("DJANGO_SETTINGS_MODULE", "settings")
+        execute_from_command_line(sys.argv)
+
